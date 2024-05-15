@@ -3,7 +3,7 @@ from . import views
 from .views import create_task, delete_task
 
 urlpatterns = [
-    path('', views.index, name='home'),
+    path('', views.user_login, name='login'),
     path('todolist/', views.todolist, name='todolist'),
     path('login/', views.user_login, name='login'),
     path('signup/', views.user_signup, name='signup'),
