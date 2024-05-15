@@ -1,0 +1,79 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>To Do List</title>
+        <link rel="shortcut icon" href="{% static 'images/icon_todo2.png' %}">
+        <link href="{% static 'css/todolist.css' %}" rel="stylesheet" type="text/css">
+        <script>
+            const imageDelete = "{% static 'images/eliminar.png' %}";
+        </script>
+        <script src="{% static 'js/todolist.js' %}" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+    </head>
+    <body>
+        {% if request.user.is_authenticated %}
+            <div class="button-log">
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        {% else %}
+            <div class="button-log">
+                <a href="{% url 'login' %}">Sign in</a>
+            </div>
+            <div class="button-log">
+                <a href="{% url 'signup' %}">Sign up</a>
+            </div>
+        {% endif %}
+        <div class="container">
+            <div class="box">
+                <header class="header-container">
+                    <div class="header">
+                        <h1 class="header-title">ToDo List</h1>
+                        <img class="header-logo" src="{% static 'images/icon_todo2.png' %}" alt="icon">
+                    </div>
+                </header>
+                <main>
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="title-addtask">Add Task</h2>
+                            <div class="input-wrapper">
+                                <input type="text" class="form-control input" id="inputField" placeholder="Enter item to do...">
+                                <button type="button" class="button button-primary" id="addToDo">+</button>
+                            </div>
+                        <div class="filters">
+                            <select id="filter-task" class="option-filter-task" name="club-services">
+                                <option value="all" selected>All</option>
+                                <option value="done">Done</option>
+                                <option value="todo">To Do</option>
+                            </select>
+                        </div>
+                        <div class="to-dos" id="toDoContainer">
+                            {% for task in tasks %}
+                                <div class="item">
+                                    <div class="content">
+                                        <div class="checkbox-wrapper-12">
+                                            <div class="cbx">
+                                                <input type="checkbox" id="cbx-12">
+                                                <label for="cbx-12"></label>
+                                                <svg fill="none" viewBox="0 0 15 14" height="14" width="15">
+                                                    <path d="M2 8.36364L6.23077 12L13 2"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <input class="text" type="text" readonly="readonly" value="{{ task.title }}">
+                                    </div>
+                                    <div class="actions">
+                                        <button class="edit button button-success" type="button">Edit</button>
+                                        <a href="{% url 'delete_task' task.id %}" class="delete button button-danger fa fa-trash" style="background: url({% static 'images/eliminar.png' %}) 0% 0% / cover no-repeat;"></a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>
