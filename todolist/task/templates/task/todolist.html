@@ -56,7 +56,7 @@
                                         <div class="content">
                                             <div class="checkbox-wrapper-12">
                                                 <div class="cbx">
-                                                    <input type="checkbox" id="cbx-12">
+                                                    <input type="checkbox" id="cbx-12" name="completed" disabled="true" {% if task.completed %}checked{% endif %}>
                                                     <label for="cbx-12"></label>
                                                     <svg fill="none" viewBox="0 0 15 14" height="14" width="15">
                                                         <path d="M2 8.36364L6.23077 12L13 2"></path>
@@ -66,7 +66,7 @@
                                             <input class="text" type="text" readonly="readonly" value="{{ task.title }}">
                                         </div>
                                         <div class="actions">
-                                            <button class="edit button button-success" type="button">Edit</button>
+                                            <a href="{% url 'update_task' task.id %}" class="edit button button-success">Edit</a>
                                             <a href="{% url 'delete_task' task.id %}" class="delete button button-danger fa fa-trash" style="background: url({% static 'images/eliminar.png' %}) 0% 0% / cover no-repeat;"></a>
                                         </div>
                                     </div>

@@ -63,6 +63,7 @@ function addItem(e){
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = 'cbx-12';
+        checkbox.disabled = true;
 
         const label = document.createElement('label');
         label.setAttribute('for', 'cbx-12');

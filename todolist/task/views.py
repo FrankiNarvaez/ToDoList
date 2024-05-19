@@ -1,10 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignupForm, LoginForm
 from django.contrib.auth.decorators import login_required
 from .models import Task
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.views import View
+import json
 
 @login_required
 def todolist(request):
@@ -69,3 +72,26 @@ def delete_task(request, task_id):
     task = Task.objects.get(id=task_id, user=request.user)
     task.delete()
     return redirect('todolist')
+
+@method_decorator(csrf_exempt, name='dispatch')
+class UpdateTaskView(View):
+    def get(self, request, task_id):
+        task = Task.objects.get(id=task_id, user=request.user)
+        context = {'task': task}
+        return render(request, 'task/updatetask.html', context)
+
+    def post(self, request, task_id):
+        try:
+            task = Task.objects.get(id=task_id, user=request.user)
+            data = json.loads(request.body)
+            task.title = data.get('title', task.title)
+            task.description = data.get('description', task.description)
+            task.completed = data.get('completed', task.completed)
+            task.save()
+            return JsonResponse({'success': True})
+        except Task.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Task not found.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
+
+update_task = UpdateTaskView.as_view()

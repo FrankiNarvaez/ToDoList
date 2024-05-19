@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Task</title>
+    <link rel="shortcut icon" href="{% static 'images/icon_todo2.png' %}">
+    <link href="{% static 'css/updateTask.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static 'js/updatetask.js' %}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <div class="title">Update Task</div>
+            <div class="input-wrapper">
+                <form id="updateTaskForm" data-task-id="{{ task.id }}">
+                    <input type="text" class="form-control input" id="inputField" name="title" value="{{ task.title }}">
+                    <textarea class="form-control input input-desc" id="inputDescription" name="description">{{ task.description }}</textarea>
+                    <div class="task-complete">
+                        <label class="title-taskcomplete" for="inputStatus">Task Complete?</label>
+                        <div class="checkbox-wrapper-12">
+                            <div class="cbx">
+                                <input type="checkbox" id="cbx-12" name="completed" {% if task.completed %}checked{% endif %}>
+                                <label for="cbx-12"></label>
+                                <svg fill="none" viewBox="0 0 15 14" height="14" width="15">
+                                    <path d="M2 8.36364L6.23077 12L13 2"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="button-confirm" type="submit" id="updateToDo">Update</button>
+                    <button class="button-confirm" type="button" id="cancel">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
